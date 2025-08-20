@@ -1,0 +1,258 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: ai-devops-security-baseline
+  labels:
+    app: ai-devops
+    component: security
+spec:
+  validationFailureAction: enforce
+  background: true
+  rules:
+  - name: require-non-root-user
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+          namespaces:
+          - ai-devops
+    validate:
+      message: "Pod must run as non-root user"
+      pattern:
+        spec:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: ">0"
+
+  - name: require-read-only-root-filesystem
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+          namespaces:
+          - ai-devops
+    validate:
+      message: "Container must have read-only root filesystem"
+      pattern:
+        spec:
+          containers:
+          - securityContext:
+              readOnlyRootFilesystem: true
+
+  - name: disallow-privilege-escalation
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+          namespaces:
+          - ai-devops
+    validate:
+      message: "Privilege escalation is not allowed"
+      pattern:
+        spec:
+          containers:
+          - securityContext:
+              allowPrivilegeEscalation: false
+
+  - name: require-resource-limits
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+          namespaces:
+          - ai-devops
+    validate:
+      message: "Resource limits are required"
+      pattern:
+        spec:
+          containers:
+          - resources:
+              limits:
+                memory: "?*"
+                cpu: "?*"
+
+  - name: drop-all-capabilities
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+          namespaces:
+          - ai-devops
+    validate:
+      message: "All capabilities must be dropped"
+      pattern:
+        spec:
+          containers:
+          - securityContext:
+              capabilities:
+                drop:
+                - ALL
+
+---
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: ai-devops-image-security
+  labels:
+    app: ai-devops
+    component: security
+spec:
+  validationFailureAction: enforce
+  background: true
+  rules:
+  - name: require-image-tag
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+          namespaces:
+          - ai-devops
+    validate:
+      message: "Images must specify a tag"
+      pattern:
+        spec:
+          containers:
+          - image: "!*:latest"
+
+  - name: require-image-pull-policy
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+          namespaces:
+          - ai-devops
+    validate:
+      message: "ImagePullPolicy must be Always for production"
+      pattern:
+        spec:
+          containers:
+          - imagePullPolicy: "Always"
+
+---
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: ai-devops-network-security
+  labels:
+    app: ai-devops
+    component: security
+spec:
+  validationFailureAction: enforce
+  background: true
+  rules:
+  - name: require-network-policies
+    match:
+      any:
+      - resources:
+          kinds:
+          - Namespace
+          names:
+          - ai-devops
+    generate:
+      kind: NetworkPolicy
+      name: ai-devops-deny-all
+      namespace: "{{request.object.metadata.name}}"
+      data:
+        spec:
+          podSelector: {}
+          policyTypes:
+          - Ingress
+          - Egress
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: ai-devops-allow-ingress
+  namespace: ai-devops
+  labels:
+    app: ai-devops
+    component: security
+spec:
+  podSelector:
+    matchLabels:
+      app: ai-devops
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    - podSelector:
+        matchLabels:
+          app: prometheus
+    ports:
+    - protocol: TCP
+      port: 5000
+  egress:
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 53
+    - protocol: UDP
+      port: 53
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 443
+    - protocol: TCP
+      port: 80
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ai-devops-tls
+  namespace: ai-devops
+  labels:
+    app: ai-devops
+    component: security
+type: kubernetes.io/tls
+data:
+  tls.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0t  # Base64 encoded certificate
+  tls.key: LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0t  # Base64 encoded private key
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ai-devops-security-config
+  namespace: ai-devops
+  labels:
+    app: ai-devops
+    component: security
+data:
+  security-policy.yaml: |
+    security:
+      authentication:
+        enabled: true
+        method: "oauth2"
+      authorization:
+        rbac: true
+        policies:
+          - effect: "allow"
+            principals: ["developers", "sre"]
+            actions: ["read", "analyze"]
+            resources: ["vulnerabilities", "metrics"]
+          - effect: "allow"
+            principals: ["security-team"]
+            actions: ["*"]
+            resources: ["*"]
+      encryption:
+        tls:
+          enabled: true
+          min_version: "1.2"
+        data_at_rest: true
+      monitoring:
+        audit_logging: true
+        security_events: true
+        anomaly_detection: true

@@ -1,0 +1,64 @@
+# AI-Augmented DevOps Framework Dependencies
+
+# Core ML and Data Science
+numpy>=1.24.0
+pandas>=2.0.0
+scikit-learn>=1.3.0
+scipy>=1.10.0
+
+# Deep Learning (for production models)
+torch>=2.0.0
+tensorflow>=2.12.0
+
+# Explainable AI
+shap>=0.42.0
+lime>=0.2.0
+
+# Web Framework
+flask>=2.3.0
+gunicorn>=21.0.0
+
+# Security and DevOps Tools
+bandit>=1.7.0
+safety>=2.3.0
+semgrep>=1.35.0
+
+# Container and Kubernetes
+kubernetes>=27.0.0
+docker>=6.1.0
+
+# Monitoring and Observability
+prometheus-client>=0.17.0
+grafana-api>=1.0.3
+
+# Pre-commit and Code Quality
+pre-commit>=3.4.0
+ruff>=0.0.290
+black>=23.7.0
+mypy>=1.5.0
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-mock>=3.11.0
+
+# Utilities
+pyyaml>=6.0.1
+click>=8.1.0
+python-dotenv>=1.0.0
+requests>=2.31.0
+jinja2>=3.1.0
+
+# Documentation
+mkdocs>=1.5.0
+mkdocs-material>=9.2.0
+
+# Development
+jupyter>=1.0.0
+ipython>=8.14.0
+rich>=13.5.0
+
+# Data visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+plotly>=5.15.0

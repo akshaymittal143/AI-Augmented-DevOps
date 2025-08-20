@@ -1,0 +1,165 @@
+# AI-Augmented DevOps Pre-commit Configuration
+# Intelligent Pre-Commit Layer with AI-enhanced security scanning
+
+repos:
+  # Code formatting and linting
+  - repo: https://github.com/psf/black
+    rev: 23.7.0
+    hooks:
+      - id: black
+        language_version: python3.11
+        args: [--line-length=88]
+
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.0.290
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.5.1
+    hooks:
+      - id: mypy
+        additional_dependencies: [types-requests, types-PyYAML]
+        exclude: ^(tests/|scripts/|docs/)
+
+  # Security scanning
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.5
+    hooks:
+      - id: bandit
+        args: [-r, -x, tests/]
+        exclude: ^tests/
+
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
+        args: ['--baseline', '.secrets.baseline']
+        exclude: package.lock.json
+
+  - repo: https://github.com/gitguardian/ggshield
+    rev: v1.25.0
+    hooks:
+      - id: ggshield
+        language: python
+        stages: [commit]
+
+  # Container and Infrastructure
+  - repo: https://github.com/hadolint/hadolint
+    rev: v2.12.0
+    hooks:
+      - id: hadolint-docker
+        args: [--ignore, DL3008, --ignore, DL3009]
+
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.32.0
+    hooks:
+      - id: yamllint
+        args: [-c=.yamllint.yaml]
+
+  # General file checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+        exclude: ^deployment/.*\.yaml$  # Kubernetes templates may have complex YAML
+      - id: check-json
+      - id: check-toml
+      - id: check-xml
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: check-docstring-first
+      - id: debug-statements
+      - id: check-executables-have-shebangs
+      - id: check-shebang-scripts-are-executable
+      - id: requirements-txt-fixer
+      - id: fix-byte-order-marker
+
+  # Python-specific
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        args: [--profile, black, --filter-files]
+
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.10.1
+    hooks:
+      - id: pyupgrade
+        args: [--py311-plus]
+
+  # Documentation
+  - repo: https://github.com/pycqa/pydocstyle
+    rev: 6.3.0
+    hooks:
+      - id: pydocstyle
+        exclude: ^(tests/|scripts/|migrations/)
+        args: [--convention=google]
+
+  # AI/ML specific checks
+  - repo: local
+    hooks:
+      - id: check-model-files
+        name: Check ML model files
+        entry: python scripts/validate_models.py
+        language: python
+        files: '^models/.*\.(pkl|h5|pt|onnx)$'
+        pass_filenames: false
+
+      - id: ai-security-scan
+        name: AI-powered security analysis
+        entry: python scripts/ai_security_scan.py
+        language: python
+        files: '\.(py|yaml|yml|json)$'
+        pass_filenames: true
+
+      - id: vulnerability-analysis
+        name: CVSS-Context vulnerability analysis
+        entry: python scripts/pre_commit_vulnerability_check.py
+        language: python
+        files: 'requirements.*\.txt$'
+        pass_filenames: true
+
+  # Kubernetes and deployment
+  - repo: https://github.com/kubernetes/kubectl
+    rev: kubernetes-1.28.2
+    hooks:
+      - id: kubectl-validate
+        name: Validate Kubernetes manifests
+        entry: kubectl apply --dry-run=client --validate=true
+        language: system
+        files: '^deployment/.*\.yaml$'
+        pass_filenames: true
+
+  # License and copyright
+  - repo: https://github.com/Lucas-C/pre-commit-hooks
+    rev: v1.5.4
+    hooks:
+      - id: insert-license
+        files: \.py$
+        args:
+          - --license-filepath
+          - scripts/license_header.txt
+          - --comment-style
+          - "#"
+
+# Global configuration
+default_stages: [commit, push]
+fail_fast: false
+minimum_pre_commit_version: 3.0.0
+
+# CI configuration
+ci:
+  autofix_commit_msg: |
+    [pre-commit.ci] auto fixes from pre-commit hooks
+
+    for more information, see https://pre-commit.ci
+  autofix_prs: true
+  autoupdate_branch: ''
+  autoupdate_commit_msg: '[pre-commit.ci] pre-commit autoupdate'
+  autoupdate_schedule: weekly
+  skip: [mypy, bandit, ai-security-scan]  # Skip expensive checks in CI
+  submodules: false

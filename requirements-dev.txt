@@ -1,0 +1,158 @@
+# AI-Augmented DevOps Framework - Development Dependencies
+
+# Include all production dependencies
+-r requirements.txt
+
+# Development and Testing Tools
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-mock>=3.11.0
+pytest-asyncio>=0.21.0
+pytest-xdist>=3.3.0
+
+# Code Quality and Linting
+ruff>=0.0.290
+black>=23.7.0
+isort>=5.12.0
+mypy>=1.5.0
+flake8>=6.0.0
+
+# Security Analysis Tools
+bandit>=1.7.0
+safety>=2.3.0
+semgrep>=1.35.0
+
+# Documentation
+sphinx>=7.1.0
+sphinx-rtd-theme>=1.3.0
+myst-parser>=2.0.0
+
+# Jupyter and Analysis
+jupyter>=1.0.0
+jupyterlab>=4.0.0
+ipython>=8.14.0
+notebook>=7.0.0
+
+# Data Science and Visualization (for evaluation scripts)
+matplotlib>=3.7.0
+seaborn>=0.12.0
+plotly>=5.15.0
+bokeh>=3.2.0
+
+# Statistical Analysis
+scipy>=1.10.0
+statsmodels>=0.14.0
+
+# Performance Profiling
+py-spy>=0.3.14
+memory-profiler>=0.61.0
+line-profiler>=4.1.0
+
+# API Testing
+httpx>=0.24.0
+responses>=0.23.0
+
+# Mocking and Fixtures
+factory-boy>=3.3.0
+faker>=19.6.0
+
+# Load Testing
+locust>=2.16.0
+
+# Database Testing
+pytest-postgresql>=5.0.0
+pytest-redis>=3.0.0
+
+# Container Testing
+testcontainers>=3.7.0
+
+# Pre-commit Hooks
+pre-commit>=3.4.0
+
+# Build and Packaging
+build>=0.10.0
+wheel>=0.41.0
+twine>=4.0.0
+
+# Environment Management
+python-dotenv>=1.0.0
+
+# Type Checking Utilities
+types-requests>=2.31.0
+types-PyYAML>=6.0.0
+types-setuptools>=68.0.0
+
+# Development Utilities
+rich>=13.5.0
+typer>=0.9.0
+watchdog>=3.0.0
+
+# Benchmarking
+pytest-benchmark>=4.0.0
+asv>=0.6.0
+
+# Git Hooks and Automation
+gitpython>=3.1.0
+
+# Configuration Management
+dynaconf>=3.2.0
+python-decouple>=3.8.0
+
+# Async Testing
+aiohttp>=3.8.0
+aiofiles>=23.2.0
+
+# Model Validation and Experimentation
+mlflow>=2.6.0
+wandb>=0.15.0
+
+# Code Coverage Reporting
+coverage[toml]>=7.3.0
+codecov>=2.1.0
+
+# License Checking
+pip-licenses>=4.3.0
+
+# Dependency Analysis
+pipdeptree>=2.13.0
+pip-audit>=2.6.0
+
+# Documentation Testing
+doctest>=1.0.0
+
+# API Documentation
+fastapi>=0.103.0  # For API documentation generation
+uvicorn>=0.23.0
+
+# Kubernetes Testing
+kubernetes-asyncio>=24.2.0
+pykube-ng>=23.6.0
+
+# Infrastructure Testing
+terraform-compliance>=1.3.0
+checkov>=2.4.0
+
+# Performance Monitoring
+psutil>=5.9.0
+
+# Networking Testing
+requests-mock>=1.11.0
+
+# Date/Time Testing
+freezegun>=1.2.0
+
+# Temporary File Management
+tempfile-fast>=0.2.0
+
+# Parallel Processing
+joblib>=1.3.0
+
+# Config File Validation
+cerberus>=1.3.0
+jsonschema>=4.19.0
+
+# CLI Testing
+click-testing>=0.1.0
+
+# Mock Services
+wiremock>=2.6.0

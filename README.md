@@ -5,7 +5,7 @@
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![Docker](https://img.shields.io/badge/docker-ready-blue.svg)](https://docker.com)
 
-> **Open-source implementation** of the AI-Augmented DevOps framework presented in our IEEE paper. This repository demonstrates how to integrate explainable AI with DevSecOps practices to create intelligent, secure, and scalable cloud-native pipelines.
+> **Open-source implementation** of the AI-Augmented DevOps framework presented in our IEEE ICCA 2025 paper. This repository demonstrates how to integrate explainable AI with DevSecOps practices to create self-managing deployment pipelines with intelligent decision-making capabilities.
 
 ## 📄 Research Paper
 
@@ -14,16 +14,20 @@
 **Authors:** Akshay Mittal¹, Krishna Kandi²
 
 **Affiliations:**
-- ¹ PhD Scholar, Senior IEEE Member, University of the Cumberlands
-- ² Software Engineering, Senior IEEE Member, Industry Professional
+- ¹ PhD Scholar, Senior IEEE Member, University of the Cumberlands, Williamsburg, KY, USA (ORCID: 0009-0008-5233-9248)
+- ² Software Engineering, Senior IEEE Member, Industry Professional, Sterling, VA, USA (ORCID: 0009-0004-5954-6355)
 
-**Conference:** WeDoAI 2025
+**Conference:** IEEE International Conference on Computing and Automation (ICCA 2025)
+
+**Abstract:** Cloud-native development demands secure, scalable applications delivered at unprecedented speed. This paper presents an AI-Augmented DevOps framework integrating machine learning with DevSecOps practices to create self-managing deployment pipelines, achieving 87% reduction in security incidents and 340% improvement in deployment frequency.
 
 **Key Results:**
-- 87% reduction in security incidents
-- 340% improvement in deployment frequency  
-- <5% false positive rates in anomaly detection
-- 67% improvement in developers' security practice understanding
+- **87% reduction in security incidents** with <5% false positive rates
+- **340% improvement in deployment frequency** (2.1 → 9.2 deployments/day)
+- **99.7% secret detection accuracy** in pre-commit layer
+- **94.3% precision, 91.7% recall** in anomaly detection
+- **67% improvement** in developers' security practice understanding
+- **458% ROI in Year 1**, 3.5-month breakeven period
 
 ## 🚀 Quick Start
 
@@ -51,27 +55,30 @@ make deploy-k8s
 
 ## 🏗️ Framework Architecture
 
-Our AI-Augmented DevOps framework comprises four integrated components operating through continuous feedback loops:
+Our AI-Augmented DevOps framework comprises four integrated components operating through continuous feedback loops, as described in our IEEE ICCA 2025 paper:
 
 ### 1. 🔍 Intelligent Pre-Commit Layer
-- **Ensemble secret detection** achieving 99.7% accuracy
-- **AI-powered code analysis** with intelligent fix suggestions
-- **Context-aware vulnerability pre-screening**
+- **Ensemble secret detection** achieving **99.7% accuracy** with 0.3% false positive rate
+- **AI-powered code analysis** with intelligent fix suggestions  
+- **Context-aware vulnerability pre-screening** reducing downstream scanning overhead by 60%
+- **Integration with Gitleaks, Ruff, ESLint** enhanced by ML-based code smell detection
 
 ### 2. 🤖 AI-Powered CI/CD Pipeline  
-- **CVSS-Context model** enhancing vulnerability scoring with application context
+- **Novel CVSS-Context model** with 47 contextual features (exposure level, data sensitivity, attack surface, incident history)
 - **Neural networks** trained on 50,000+ vulnerability instances
-- **Explainable prioritization** with human-readable reasoning
+- **ML-driven build optimization** reducing build time by 45%
+- **Risk-based testing** prioritizing critical paths through change impact analysis
 
 ### 3. 📋 Policy-as-Code Engine
-- **Context-aware policies** adapting to application type and environment
-- **ML-based conflict resolution** with 99.2% compliance rate
-- **Continuous refinement** based on violation patterns
+- **Context-aware policies** adapting to application type, environment, and risk profile
+- **ML-based conflict resolution** maintaining **99.2% compliance** while reducing false violations by 78%
+- **Continuous refinement** based on violation patterns and incident correlation
 
 ### 4. 📊 Explainable Runtime Monitoring
-- **Multi-modal ensemble** anomaly detection (94.3% precision, 91.7% recall)
-- **Natural language generation** for incident reports
-- **Automated correlation analysis** reducing MTTR by 67%
+- **Multi-modal ensemble** anomaly detection (**94.3% precision, 91.7% recall**)
+- **Automated correlation analysis** reducing **MTTR by 67%**
+- **Natural language generation** for explainable incident reports with causality chains
+- **Combines** time-series analysis, log pattern recognition, and behavior modeling
 
 ## 📁 Repository Structure
 
@@ -208,12 +215,14 @@ for anomaly in anomalies:
 
 ## 📚 Educational Value
 
-Beyond operational efficiency, our framework serves as an **embedded tutoring system**:
+Beyond operational efficiency, our framework serves as an **embedded tutoring system**, as validated in our user studies with 45 DevOps practitioners:
 
-- **Contextual explanations** help developers learn secure coding practices
-- **Real-world feedback** improves security knowledge retention by 67%
-- **Micro-learning approach** integrates education into daily workflows
-- **Explainable AI** builds trust and understanding
+- **Contextual explanations** help developers learn secure coding practices in real-world settings
+- **67% improvement** in developers' security practice understanding (validated through user studies)
+- **Micro-learning approach** integrates education into daily workflows, addressing critical skills gaps
+- **4.2/5.0 trust score** for AI explanations (vs. 2.8/5.0 for black-box systems)
+- **89% confidence** in AI recommendations among practitioners
+- **Explainable AI** builds trust and understanding through SHAP analysis and natural language generation
 
 ## 🔬 Research Reproducibility
 
@@ -226,13 +235,14 @@ Beyond operational efficiency, our framework serves as an **embedded tutoring sy
 ### Citation
 
 ```bibtex
-@article{mittal2025ai,
+@inproceedings{mittal2025ai,
   title={AI-Augmented DevOps: An Intelligent Framework for Secure and Scalable Cloud-Native Pipeline Automation},
   author={Mittal, Akshay and Kandi, Krishna},
-  journal={Proceedings of WeDoAI 2025},
+  booktitle={2025 IEEE International Conference on Computing and Automation (ICCA)},
   year={2025},
-  publisher={IEEE},
-  doi={10.1109/WeDoAI.2025.example}
+  organization={IEEE},
+  keywords={DevOps, Machine Learning, Cloud Security, Kubernetes, Anomaly Detection, Explainable AI, DevSecOps, Pipeline Automation},
+  note={Complete open-source implementation available at: \url{https://github.com/akshaymittal143/AI-Augmented-DevOps}}
 }
 ```
 
@@ -277,11 +287,12 @@ make test-all
 
 ## 🏆 Acknowledgments
 
-- **WeDoAI 2025** conference for providing the platform
-- **University of the Cumberlands** for research support
-- **IEEE** for publication venue
-- **Open-source community** for tools and libraries
-- **Industry partners** for validation environments
+- **IEEE ICCA 2025** conference for providing the publication venue
+- **University of the Cumberlands** for research support and academic guidance
+- **IEEE Computer Society** for fostering this research community
+- **Open-source community** for foundational tools and libraries (Kubernetes, GitHub Actions, scikit-learn, TensorFlow)
+- **Industry practitioners** who participated in our user studies and validation environments
+- **45 DevOps practitioners** who provided valuable feedback during our explainability evaluation
 
 ## 📄 License
 
@@ -296,3 +307,17 @@ MIT License - see [LICENSE](LICENSE) file for details.
 🤖 **Build the future** of intelligent DevOps together
 
 📖 **Read the full paper** for technical details and evaluation methodology
+
+## 🎯 Key Contributions
+
+Our work makes four significant contributions to the field:
+
+1. **Holistic End-to-End AI Integration** - Comprehensive AI integration across the entire DevOps lifecycle versus isolated solutions, demonstrating how ML models can work together for intelligent automation.
+
+2. **Novel CVSS-Context Model** - First approach to incorporate 47 application-specific contextual factors into vulnerability scoring, addressing limitations of standard CVSS scoring in real-world deployment contexts.
+
+3. **Practical Explainability for DevOps** - Explainable AI implementation that addresses real-world trust requirements beyond academic XAI, with validated user studies showing 4.2/5.0 trust score and 89% confidence in AI recommendations.
+
+4. **Complete Open-Source Implementation** - Production-ready implementation enabling immediate adoption and reproducible research, with comprehensive evaluation scripts matching all paper metrics.
+
+**Impact:** This framework achieves **87% reduction in security incidents**, **340% improvement in deployment frequency**, and **sub-5% false positive rates** while serving as an embedded tutoring system that improves developers' security understanding by **67%**. The **458% ROI in Year 1** with **3.5-month breakeven** demonstrates clear economic value for organizations adopting AI-augmented DevOps practices.
